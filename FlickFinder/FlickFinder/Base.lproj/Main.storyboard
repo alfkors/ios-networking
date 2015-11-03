@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -23,16 +24,10 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <color key="textColor" red="0.92156862745098034" green="0.52941176470588236" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="57" y="28" width="286" height="36"/>
-                                </variation>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KDq-IB-EYI">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <animations/>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="33" y="99" width="334" height="232"/>
-                                </variation>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nV0-U5-lgV">
                                 <rect key="frame" x="-25" y="-30" width="97" height="30"/>
@@ -68,24 +63,29 @@
                                 <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="292" y="426" width="55" height="30"/>
                                 </variation>
+                                <connections>
+                                    <action selector="searchByCoordinatesButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sBF-RQ-MoQ"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latitude" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="axE-C4-W53">
                                 <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.8901960784313725" green="0.45098039215686275" blue="0.12549019607843137" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
+                                    <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="17"/>
                                     <rect key="frame" x="33" y="465" width="119" height="21"/>
                                 </variation>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Longitude" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0c3-7W-2Sx">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Longitude" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0c3-7W-2Sx">
                                 <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.8901960784313725" green="0.45098039215686275" blue="0.12549019607843137" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
+                                    <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="17"/>
                                     <rect key="frame" x="165" y="465" width="119" height="21"/>
                                 </variation>
                             </label>
@@ -96,6 +96,9 @@
                                 <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="292" y="381" width="55" height="30"/>
                                 </variation>
+                                <connections>
+                                    <action selector="searchByTextButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5uR-KO-HfX"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KEe-iR-kvn">
                                 <rect key="frame" x="-42" y="-21" width="42" height="21"/>
@@ -103,7 +106,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="0.81408943965517244" green="0.2197198275862069" blue="0.4868803879310345" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
-                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
+                                <variation key="widthClass=compact" misplaced="YES">
                                     <rect key="frame" x="33" y="521" width="334" height="29"/>
                                 </variation>
                             </label>
@@ -111,7 +114,9 @@
                         <animations/>
                         <color key="backgroundColor" red="0.10901946400467105" green="0.35828723692665382" blue="0.52501227094240832" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="elK-Ny-EUy" firstAttribute="top" secondItem="KDq-IB-EYI" secondAttribute="bottom" constant="50" id="1yk-fo-3KA"/>
+                            <constraint firstItem="elK-Ny-EUy" firstAttribute="top" secondItem="KDq-IB-EYI" secondAttribute="bottom" constant="50" id="1yk-fo-3KA">
+                                <variation key="widthClass=compact" constant="36"/>
+                            </constraint>
                             <constraint firstItem="XaO-6j-Fzi" firstAttribute="top" secondItem="elK-Ny-EUy" secondAttribute="bottom" constant="15" id="2Ey-9H-JCs"/>
                             <constraint firstItem="KDq-IB-EYI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="13" id="2wq-QT-pb8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="0c3-7W-2Sx" secondAttribute="trailing" constant="96" id="3c8-Dm-FdC"/>
@@ -123,7 +128,10 @@
                             <constraint firstItem="rcV-b4-FKO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="13" id="Ckb-tr-jEt"/>
                             <constraint firstItem="XaO-6j-Fzi" firstAttribute="leading" secondItem="XzH-iZ-sl3" secondAttribute="trailing" constant="8" id="EhW-uo-9q4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="elK-Ny-EUy" secondAttribute="trailing" constant="33" id="FRo-MX-f1H"/>
-                            <constraint firstItem="KEe-iR-kvn" firstAttribute="top" secondItem="0c3-7W-2Sx" secondAttribute="bottom" constant="20" id="GPi-ag-b4R"/>
+                            <constraint firstItem="KEe-iR-kvn" firstAttribute="top" secondItem="0c3-7W-2Sx" secondAttribute="bottom" constant="20" id="GPi-ag-b4R">
+                                <variation key="widthClass=compact" constant="35"/>
+                            </constraint>
+                            <constraint firstAttribute="trailingMargin" secondItem="KEe-iR-kvn" secondAttribute="trailing" constant="13" id="IXV-UE-sSA"/>
                             <constraint firstItem="0c3-7W-2Sx" firstAttribute="top" secondItem="XzH-iZ-sl3" secondAttribute="bottom" constant="8" id="Liv-e5-h3Y"/>
                             <constraint firstAttribute="trailingMargin" secondItem="XaO-6j-Fzi" secondAttribute="trailing" constant="33" id="Nlo-s3-FJy"/>
                             <constraint firstItem="elK-Ny-EUy" firstAttribute="leading" secondItem="nV0-U5-lgV" secondAttribute="trailing" constant="8" id="SIL-m8-HDa"/>
@@ -132,7 +140,9 @@
                             </constraint>
                             <constraint firstItem="axE-C4-W53" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="13" id="Xvn-BB-VFk"/>
                             <constraint firstItem="rcV-b4-FKO" firstAttribute="top" secondItem="nV0-U5-lgV" secondAttribute="bottom" constant="16" id="Yr7-wE-iim"/>
-                            <constraint firstItem="KEe-iR-kvn" firstAttribute="top" secondItem="axE-C4-W53" secondAttribute="bottom" constant="20" id="bPv-Bc-GEO"/>
+                            <constraint firstItem="KEe-iR-kvn" firstAttribute="top" secondItem="axE-C4-W53" secondAttribute="bottom" constant="20" id="bPv-Bc-GEO">
+                                <variation key="widthClass=compact" constant="35"/>
+                            </constraint>
                             <constraint firstItem="KDq-IB-EYI" firstAttribute="top" secondItem="cIk-GI-gQf" secondAttribute="bottom" constant="22" id="e4x-e7-4oD">
                                 <variation key="widthClass=compact" constant="35"/>
                             </constraint>
@@ -140,7 +150,10 @@
                             <constraint firstItem="XzH-iZ-sl3" firstAttribute="top" secondItem="nV0-U5-lgV" secondAttribute="bottom" constant="16" id="fpz-Ei-GTi"/>
                             <constraint firstItem="XaO-6j-Fzi" firstAttribute="top" secondItem="elK-Ny-EUy" secondAttribute="bottom" constant="15" id="lNb-eY-Ydc"/>
                             <constraint firstItem="0c3-7W-2Sx" firstAttribute="leading" secondItem="axE-C4-W53" secondAttribute="trailing" constant="13" id="lZX-VF-771"/>
-                            <constraint firstItem="nV0-U5-lgV" firstAttribute="top" secondItem="KDq-IB-EYI" secondAttribute="bottom" constant="50" id="q8Z-hh-unN"/>
+                            <constraint firstItem="KEe-iR-kvn" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="13" id="lfc-4C-wUa"/>
+                            <constraint firstItem="nV0-U5-lgV" firstAttribute="top" secondItem="KDq-IB-EYI" secondAttribute="bottom" constant="50" id="q8Z-hh-unN">
+                                <variation key="widthClass=compact" constant="36"/>
+                            </constraint>
                             <constraint firstItem="KDq-IB-EYI" firstAttribute="top" secondItem="cIk-GI-gQf" secondAttribute="bottom" constant="22" id="qF6-jI-BnL">
                                 <variation key="widthClass=compact" constant="35"/>
                             </constraint>
@@ -202,7 +215,9 @@
                                 <exclude reference="Nlo-s3-FJy"/>
                                 <exclude reference="lNb-eY-Ydc"/>
                                 <exclude reference="GPi-ag-b4R"/>
+                                <exclude reference="IXV-UE-sSA"/>
                                 <exclude reference="bPv-Bc-GEO"/>
+                                <exclude reference="lfc-4C-wUa"/>
                                 <exclude reference="s5Q-5I-YWc"/>
                             </mask>
                         </variation>
@@ -254,15 +269,24 @@
                                 <include reference="Nlo-s3-FJy"/>
                                 <include reference="lNb-eY-Ydc"/>
                                 <include reference="GPi-ag-b4R"/>
+                                <include reference="IXV-UE-sSA"/>
                                 <include reference="bPv-Bc-GEO"/>
+                                <include reference="lfc-4C-wUa"/>
                                 <include reference="s5Q-5I-YWc"/>
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="flickImage" destination="KDq-IB-EYI" id="uom-sa-Vhs"/>
+                        <outlet property="flickName" destination="KEe-iR-kvn" id="hA3-uN-UHG"/>
+                        <outlet property="latitudeTextField" destination="rcV-b4-FKO" id="UJA-ez-5Z4"/>
+                        <outlet property="longitudeTextField" destination="XzH-iZ-sl3" id="jwT-d9-5Jm"/>
+                        <outlet property="searchTextField" destination="nV0-U5-lgV" id="ll2-3G-Bca"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="348" y="372"/>
+            <point key="canvasLocation" x="256.5" y="396"/>
         </scene>
     </scenes>
 </document>
