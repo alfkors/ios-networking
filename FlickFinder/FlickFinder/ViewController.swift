@@ -12,7 +12,7 @@ let BASE_URL: String = "https://api.flickr.com/services/rest/"
 let DATA_FORMAT: String = "json"
 let API_KEY: String = "6da082d468c576c8f648938f50aa17d7"
 let EXTRAS: String = "url_m"
-let SEARCH_TEXT: String = "ocean+french+fries+square+twerking"
+let SEARCH_TEXT: String = "mime"
 let NO_JSON_CALLBACK = "1"
 
 class ViewController: UIViewController {
@@ -41,7 +41,8 @@ class ViewController: UIViewController {
         searchUrlString += "&format=" + methodParams["format"]!
         searchUrlString += "&nojsoncallback=" + methodParams["nojsoncallback"]!
         
-        
+        var flickName: String!
+        var flickImage: UIImage?
         let searchSession = NSURLSession.sharedSession()
         let searchUrl = NSURL(string: searchUrlString)
         let searchRequest = NSURLRequest(URL: searchUrl!)
@@ -49,18 +50,24 @@ class ViewController: UIViewController {
             if (error == nil){
                 let parsedResult = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! NSDictionary
                 let photos = parsedResult!["photos"] as! NSDictionary
-                print(photos["total"])
                 let photoArray = photos["photo"] as! NSArray
                 if(photoArray.count > 0){
                     let photoArray = photos["photo"] as! NSArray
                     let photo = photoArray[Int(arc4random_uniform(UInt32(photoArray.count)))]
-                    print(photo["url_m"])
+                    let flickUrlString = photo.valueForKey("url_m") as! String
+                    let flickUrl = NSURL(string: flickUrlString)
+                    let flickData = NSData(contentsOfURL: flickUrl!)
+                    flickImage = UIImage(data: flickData!)
+                    flickName = photo.valueForKey("title") as! String
                 } else {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.flickName.text = "No Image Found"
-                    })
-
+                    flickName = "No Image Found"
                 }
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.flickImage.image = flickImage
+                    self.flickName.text = flickName
+                })
+
             } else {
                 print("Error is \((error! as NSError).code)")
             }
