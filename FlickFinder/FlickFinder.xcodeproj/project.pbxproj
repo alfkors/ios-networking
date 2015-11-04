@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		276B787F1BE9A22F00356514 /* FlickFinderTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276B787E1BE9A22F00356514 /* FlickFinderTextFieldDelegate.swift */; };
 		2780121C1BE06C0B006C884C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2780121B1BE06C0B006C884C /* AppDelegate.swift */; };
 		2780121E1BE06C0B006C884C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2780121D1BE06C0B006C884C /* ViewController.swift */; };
 		278012211BE06C0B006C884C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2780121F1BE06C0B006C884C /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		276B787E1BE9A22F00356514 /* FlickFinderTextFieldDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickFinderTextFieldDelegate.swift; sourceTree = "<group>"; };
 		278012181BE06C0B006C884C /* FlickFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2780121B1BE06C0B006C884C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2780121D1BE06C0B006C884C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 		2780120F1BE06C0B006C884C = {
 			isa = PBXGroup;
 			children = (
+				276B787E1BE9A22F00356514 /* FlickFinderTextFieldDelegate.swift */,
 				2780121A1BE06C0B006C884C /* FlickFinder */,
 				2780122F1BE06C0B006C884C /* FlickFinderTests */,
 				2780123A1BE06C0B006C884C /* FlickFinderUITests */,
@@ -255,6 +258,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				276B787F1BE9A22F00356514 /* FlickFinderTextFieldDelegate.swift in Sources */,
 				2780121E1BE06C0B006C884C /* ViewController.swift in Sources */,
 				2780121C1BE06C0B006C884C /* AppDelegate.swift in Sources */,
 			);
@@ -481,6 +485,7 @@
 				278012421BE06C0B006C884C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		278012431BE06C0B006C884C /* Build configuration list for PBXNativeTarget "FlickFinderTests" */ = {
 			isa = XCConfigurationList;
@@ -489,6 +494,7 @@
 				278012451BE06C0B006C884C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		278012461BE06C0B006C884C /* Build configuration list for PBXNativeTarget "FlickFinderUITests" */ = {
 			isa = XCConfigurationList;
@@ -497,6 +503,7 @@
 				278012481BE06C0B006C884C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

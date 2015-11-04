@@ -20,11 +20,13 @@ class ViewController: UIViewController {
     let methodParams = [
         "method" : "flickr.photos.search",
         "api_key" : API_KEY,
-        "text" : SEARCH_TEXT,
+        "text" : "",
         "extras": EXTRAS,
         "format" : DATA_FORMAT,
         "nojsoncallback" : NO_JSON_CALLBACK
     ]
+    
+    let searchTextDelegate = FlickFinderTextFieldDelegate()
 
     @IBOutlet weak var flickImage: UIImageView!
     @IBOutlet weak var searchTextField: UITextField!
@@ -33,10 +35,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var flickName: UILabel!
 
     @IBAction func searchByTextButton(sender: AnyObject) {
+        /* Escape search text */
+        let escapedSearchText = searchTextField.text?.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
         var searchUrlString = "\(BASE_URL)"
         searchUrlString += "?method=" + methodParams["method"]!
         searchUrlString += "&api_key=" + methodParams["api_key"]!
-        searchUrlString += "&text=" + methodParams["text"]!
+        searchUrlString += "&text=" + escapedSearchText!
         searchUrlString += "&extras=" + methodParams["extras"]!
         searchUrlString += "&format=" + methodParams["format"]!
         searchUrlString += "&nojsoncallback=" + methodParams["nojsoncallback"]!
@@ -78,20 +82,75 @@ class ViewController: UIViewController {
     
     @IBAction func searchByCoordinatesButton(sender: AnyObject) {
     }
-
+    
+    // MARK: Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        searchTextField.delegate = searchTextDelegate
+        print("Initialize the tapRecognizer in viewDidLoad")
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        print("Add the tapRecognizer and subscribe to keyboard notifications in viewWillAppear")
+        subscribeToKeyboardNotifications()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("Remove the tapRecognizer and unsubscribe from keyboard notifications in viewWillDisappear")
+        unsubscribeToKeyboardNotifications()
+    }
+    
+    // MARK: Show/Hide Keyboard
+    
+    func addKeyboardDismissRecognizer() {
+        print("Add the recognizer to dismiss the keyboard")
+    }
+    
+    func removeKeyboardDismissRecognizer() {
+        print("Remove the recognizer to dismiss the keyboard")
+    }
+    
+    func handleSingleTap(recognizer: UITapGestureRecognizer) {
+        print("End editing here")
+    }
+    
+    func subscribeToKeyboardNotifications() {
+        print("Subscribe to the KeyboardWillShow and KeyboardWillHide notifications")
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+
+    }
+    
+    func unsubscribeToKeyboardNotifications() {
+        print("Unsubscribe to the KeyboardWillShow and KeyboardWillHide notifications")
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        print("Shift the view's frame up so that controls are shown")
+        view.frame.origin.y -= getKeyboardHeight(notification)
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        print("Shift the view's frame down so that the view is back to its original placement")
+        view.frame.origin.y += getKeyboardHeight(notification)
+    }
+    
+    func getKeyboardHeight(notification: NSNotification) -> CGFloat {
+        let userInfo = notification.userInfo
+        var keyboardHight: CGFloat
+        
+        // Slide flick scene with the keyboard only for search text fields
+        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue // of CGRect
+        keyboardHight = keyboardSize.CGRectValue().height
+
+        return keyboardHight
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
 }
 
