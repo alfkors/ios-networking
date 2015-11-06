@@ -26,7 +26,10 @@ class ViewController: UIViewController {
         "nojsoncallback" : NO_JSON_CALLBACK
     ]
     
-    let searchTextDelegate = FlickFinderTextFieldDelegate()
+    let freeTextDelegate = FreeTextTextFieldDelegate()
+    let latTextDelegate = LatitudeTextFieldDelegate()
+    let lonTextDelegate = LongitudeTextFieldDelegate()
+    
 
     @IBOutlet weak var flickImage: UIImageView!
     @IBOutlet weak var searchTextField: UITextField!
@@ -36,58 +39,39 @@ class ViewController: UIViewController {
 
     @IBAction func searchByTextButton(sender: AnyObject) {
         /* Escape search text */
-        let escapedSearchText = searchTextField.text?.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
         var searchUrlString = "\(BASE_URL)"
         searchUrlString += "?method=" + methodParams["method"]!
         searchUrlString += "&api_key=" + methodParams["api_key"]!
-        searchUrlString += "&text=" + escapedSearchText!
+        searchUrlString += "&text=" + searchTextField.text!.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         searchUrlString += "&extras=" + methodParams["extras"]!
         searchUrlString += "&format=" + methodParams["format"]!
         searchUrlString += "&nojsoncallback=" + methodParams["nojsoncallback"]!
         
-        var flickName: String!
-        var flickImage: UIImage?
-        let searchSession = NSURLSession.sharedSession()
-        let searchUrl = NSURL(string: searchUrlString)
-        let searchRequest = NSURLRequest(URL: searchUrl!)
-        let task = searchSession.dataTaskWithRequest(searchRequest){ (data, response, error) in
-            if (error == nil){
-                let parsedResult = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! NSDictionary
-                let photos = parsedResult!["photos"] as! NSDictionary
-                let photoArray = photos["photo"] as! NSArray
-                if(photoArray.count > 0){
-                    let photoArray = photos["photo"] as! NSArray
-                    let photo = photoArray[Int(arc4random_uniform(UInt32(photoArray.count)))]
-                    let flickUrlString = photo.valueForKey("url_m") as! String
-                    let flickUrl = NSURL(string: flickUrlString)
-                    let flickData = NSData(contentsOfURL: flickUrl!)
-                    flickImage = UIImage(data: flickData!)
-                    flickName = photo.valueForKey("title") as! String
-                } else {
-                    flickName = "No Image Found"
-                }
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.flickImage.image = flickImage
-                    self.flickName.text = flickName
-                })
-
-            } else {
-                print("Error is \((error! as NSError).code)")
-            }
-        }
-        
-        task.resume()
+        findFlick(searchUrlString)
     }
     
     @IBAction func searchByCoordinatesButton(sender: AnyObject) {
+        let bbox = getBbox(latitudeTextField.text!, lon:longitudeTextField.text!)
+        print(bbox)
+        
+        var searchUrlString = "\(BASE_URL)"
+        searchUrlString += "?method=" + methodParams["method"]!
+        searchUrlString += "&api_key=" + methodParams["api_key"]!
+        searchUrlString += "&bbox=" + bbox
+        searchUrlString += "&extras=" + methodParams["extras"]!
+        searchUrlString += "&format=" + methodParams["format"]!
+        searchUrlString += "&nojsoncallback=" + methodParams["nojsoncallback"]!
+        
+        findFlick(searchUrlString)
     }
     
     // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchTextField.delegate = searchTextDelegate
+        searchTextField.delegate = freeTextDelegate
+        latitudeTextField.delegate = latTextDelegate
+        longitudeTextField.delegate = lonTextDelegate
         print("Initialize the tapRecognizer in viewDidLoad")
     }
     
@@ -132,7 +116,9 @@ class ViewController: UIViewController {
     
     func keyboardWillShow(notification: NSNotification) {
         print("Shift the view's frame up so that controls are shown")
-        view.frame.origin.y -= getKeyboardHeight(notification)
+        if(view.frame.origin.y == 0.0) {
+            view.frame.origin.y -= getKeyboardHeight(notification)
+        }
     }
     
     func keyboardWillHide(notification: NSNotification) {
@@ -151,6 +137,61 @@ class ViewController: UIViewController {
         return keyboardHight
     }
 
+    func getBbox(lat: String!, lon: String) -> String {
+        let minimum_longitude = (lon as NSString).floatValue
+        let minimum_latitude = (lat as NSString).floatValue
+        var maximum_longitude = minimum_longitude + 10.0
+        var maximum_latitude = minimum_latitude + 5.0
+        if(minimum_longitude >= 170) {
+            maximum_longitude = (minimum_longitude * -1) + 10
+        }
+        if(minimum_latitude >= 80) {
+            maximum_latitude = minimum_latitude
+        }
+        
+        
+        return "\(minimum_longitude),\(minimum_latitude),\(maximum_longitude),\(maximum_latitude)"
+    }
+    
+    func findFlick(searchUrlString: String) {
+        var flickName: String!
+        var flickImage: UIImage?
+        let searchSession = NSURLSession.sharedSession()
+        let searchUrl = NSURL(string: searchUrlString)
+        let searchRequest = NSURLRequest(URL: searchUrl!)
+        let task = searchSession.dataTaskWithRequest(searchRequest){ (data, response, error) in
+            if (error == nil){
+                let parsedResult = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! NSDictionary
+
+                if((parsedResult!["stat"] as! String) == "ok") {
+                    let photos = parsedResult!["photos"] as! NSDictionary
+                    let photoArray = photos["photo"] as! NSArray
+                    if(photoArray.count > 0){
+                        let photoArray = photos["photo"] as! NSArray
+                        let photo = photoArray[Int(arc4random_uniform(UInt32(photoArray.count)))]
+                        let flickUrlString = photo.valueForKey("url_m") as! String
+                        let flickUrl = NSURL(string: flickUrlString)
+                        let flickData = NSData(contentsOfURL: flickUrl!)
+                        flickImage = UIImage(data: flickData!)
+                        flickName = photo.valueForKey("title") as! String
+                    } else {
+                        flickName = "No Image Found"
+                    }
+                } else {
+                    flickName = parsedResult!["message"] as! String
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.flickImage.image = flickImage
+                    self.flickName.text = flickName
+                })
+                
+            } else {
+                print("Error is \((error! as NSError).code)")
+            }
+        }
+        task.resume()
+    }
 
 }
 

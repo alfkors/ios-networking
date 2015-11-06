@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		276B787F1BE9A22F00356514 /* FlickFinderTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276B787E1BE9A22F00356514 /* FlickFinderTextFieldDelegate.swift */; };
+		276B78831BEC460900356514 /* LongitudeTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276B78821BEC460900356514 /* LongitudeTextFieldDelegate.swift */; };
+		276B78851BEC4EE300356514 /* LatitudeTextFieldDeligate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276B78841BEC4EE300356514 /* LatitudeTextFieldDeligate.swift */; };
+		276B78871BEC55E700356514 /* FreeTextTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276B78861BEC55E700356514 /* FreeTextTextFieldDelegate.swift */; };
 		2780121C1BE06C0B006C884C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2780121B1BE06C0B006C884C /* AppDelegate.swift */; };
 		2780121E1BE06C0B006C884C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2780121D1BE06C0B006C884C /* ViewController.swift */; };
 		278012211BE06C0B006C884C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2780121F1BE06C0B006C884C /* Main.storyboard */; };
@@ -35,7 +37,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		276B787E1BE9A22F00356514 /* FlickFinderTextFieldDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickFinderTextFieldDelegate.swift; sourceTree = "<group>"; };
+		276B78821BEC460900356514 /* LongitudeTextFieldDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LongitudeTextFieldDelegate.swift; sourceTree = "<group>"; };
+		276B78841BEC4EE300356514 /* LatitudeTextFieldDeligate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatitudeTextFieldDeligate.swift; sourceTree = "<group>"; };
+		276B78861BEC55E700356514 /* FreeTextTextFieldDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreeTextTextFieldDelegate.swift; sourceTree = "<group>"; };
 		278012181BE06C0B006C884C /* FlickFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2780121B1BE06C0B006C884C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2780121D1BE06C0B006C884C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -79,7 +83,9 @@
 		2780120F1BE06C0B006C884C = {
 			isa = PBXGroup;
 			children = (
-				276B787E1BE9A22F00356514 /* FlickFinderTextFieldDelegate.swift */,
+				276B78861BEC55E700356514 /* FreeTextTextFieldDelegate.swift */,
+				276B78821BEC460900356514 /* LongitudeTextFieldDelegate.swift */,
+				276B78841BEC4EE300356514 /* LatitudeTextFieldDeligate.swift */,
 				2780121A1BE06C0B006C884C /* FlickFinder */,
 				2780122F1BE06C0B006C884C /* FlickFinderTests */,
 				2780123A1BE06C0B006C884C /* FlickFinderUITests */,
@@ -258,9 +264,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				276B787F1BE9A22F00356514 /* FlickFinderTextFieldDelegate.swift in Sources */,
 				2780121E1BE06C0B006C884C /* ViewController.swift in Sources */,
 				2780121C1BE06C0B006C884C /* AppDelegate.swift in Sources */,
+				276B78831BEC460900356514 /* LongitudeTextFieldDelegate.swift in Sources */,
+				276B78851BEC4EE300356514 /* LatitudeTextFieldDeligate.swift in Sources */,
+				276B78871BEC55E700356514 /* FreeTextTextFieldDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
