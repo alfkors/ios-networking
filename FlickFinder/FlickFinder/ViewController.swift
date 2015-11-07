@@ -12,24 +12,17 @@ let BASE_URL: String = "https://api.flickr.com/services/rest/"
 let DATA_FORMAT: String = "json"
 let API_KEY: String = "6da082d468c576c8f648938f50aa17d7"
 let EXTRAS: String = "url_m"
-let SEARCH_TEXT: String = "mime"
 let NO_JSON_CALLBACK = "1"
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     
     let methodParams = [
         "method" : "flickr.photos.search",
         "api_key" : API_KEY,
-        "text" : "",
         "extras": EXTRAS,
         "format" : DATA_FORMAT,
         "nojsoncallback" : NO_JSON_CALLBACK
     ]
-    
-    let freeTextDelegate = FreeTextTextFieldDelegate()
-    let latTextDelegate = LatitudeTextFieldDelegate()
-    let lonTextDelegate = LongitudeTextFieldDelegate()
-    
 
     @IBOutlet weak var flickImage: UIImageView!
     @IBOutlet weak var searchTextField: UITextField!
@@ -69,9 +62,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchTextField.delegate = freeTextDelegate
-        latitudeTextField.delegate = latTextDelegate
-        longitudeTextField.delegate = lonTextDelegate
+        searchTextField.delegate = self
+        latitudeTextField.delegate = self
+        longitudeTextField.delegate = self
         print("Initialize the tapRecognizer in viewDidLoad")
     }
     
@@ -192,6 +185,50 @@ class ViewController: UIViewController {
         }
         task.resume()
     }
+    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        return true
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+        var shouldEndEditing: Bool
+        switch textField {
+        case latitudeTextField:
+            shouldEndEditing = validLat((self.latitudeTextField.text! as NSString).doubleValue)
+            if(!shouldEndEditing) {
+                flickName.text = "Please enter valid latitude"
+            }
+            
+        case longitudeTextField:
+            shouldEndEditing = validLon((self.longitudeTextField.text! as NSString).doubleValue)
+            if(!shouldEndEditing) {
+                flickName.text = "Please enter valid longitude"
+            }
 
+        case searchTextField:
+            shouldEndEditing = (self.searchTextField.text?.characters.count > 0)
+            if(!shouldEndEditing) {
+                flickName.text = "Search text is empty"
+            }
+
+        default:
+            shouldEndEditing = true
+        }
+
+        return shouldEndEditing
+    }
+    
+    func validLon(lon: Double) -> Bool {
+        return (lon >= -180.0 && lon <= 180.0)
+    }
+    
+    func validLat(lat: Double) -> Bool {
+        return (lat >= -90 && lat <= 90)
+    }
 }
 
