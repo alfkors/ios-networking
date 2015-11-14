@@ -101,11 +101,15 @@ class LoginViewController: UIViewController {
         
         /* 1. Set the parameters */
         let methodParameters = [
-            "key": "value"
+            "api_key": appDelegate.apiKey
         ]
         
+        let method = "authentication/token/new"
+        
         /* 2. Build the URL */
-        let urlString = "BUILD_THE_URL" + appDelegate.escapedParameters(methodParameters)
+        let methodString = method + appDelegate.escapedParameters(methodParameters)
+        let urlString = appDelegate.baseURLSecureString + methodString
+        print(urlString)
         let url = NSURL(string: urlString)!
         
         /* 3. Configure the request */
@@ -117,7 +121,7 @@ class LoginViewController: UIViewController {
             
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                print("getRequestToken: Print an error message")
+                print("getRequestToken: Error code: \(error?.code)")
                 return
             }
             
@@ -141,9 +145,17 @@ class LoginViewController: UIViewController {
             
             /* 5. Parse the data */
             print("getRequestToken: Parse the data \(data)")
+            if let parsedData = try? NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as! NSDictionary {
+                print(parsedData)
+                if((parsedData["success"] as! Int) == 1){
+                    self.appDelegate.requestToken = parsedData["request_token"] as? String
+                    self.loginWithToken(self.appDelegate.requestToken!)
+                    self.getSessionID(self.appDelegate.requestToken!)
+                }
+            }
             
             /* 6. Use the data! */
-            print("getRequestToken: Use the data")
+            print("getRequestToken: \(self.appDelegate.requestToken)")
         }
         
         /* 7. Start the request */
@@ -152,38 +164,117 @@ class LoginViewController: UIViewController {
     
     func loginWithToken(requestToken: String) {
         
-        /* TASK: Login, then get a session id */
+        /* TASK: Login, then get a session id 
+        https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=API_KEY&request_token=REQUEST_TOKEN&username=###&password=###
+        */
+        
         /* 1. Set the parameters */
+        let methodParameters = [
+            "api_key": appDelegate.apiKey,
+            "request_token": requestToken,
+            "username": usernameTextField.text!,
+            "password": passwordTextField.text!
+        ]
+
         /* 2. Build the URL */
+        let urlString = appDelegate.baseURLSecureString + "authentication/token/validate_with_login" + appDelegate.escapedParameters(methodParameters)
+        print("loginWithToken urlString: \(urlString)")
+        let url = NSURL(string: urlString)
         /* 3. Configure the request */
+        let request = NSMutableURLRequest(URL: url!)
+        request.addValue("aplication/json", forHTTPHeaderField: "Accept")
         /* 4. Make the request */
-        /* 5. Parse the data */
-        /* 6. Use the data! */
+        let task = session.dataTaskWithRequest(request){(data, response, downloadError) in
+            /* 5. Parse the data */
+            if let error = downloadError {
+                print(error.code)
+            } else {
+                if let parsedData = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! NSDictionary {
+                    /* 6. Use the data! */
+                    print(parsedData)
+                }
+            }
+        
+        }
         /* 7. Start the request */
+        task.resume()
     }
     
     func getSessionID(requestToken: String) {
         
         /* TASK: Get a session ID, then store it (appDelegate.sessionID) and get the user's id */
         /* 1. Set the parameters */
+        let methodParameters = [
+            "api_key": appDelegate.apiKey,
+            "request_token": requestToken
+        ]
+
         /* 2. Build the URL */
+        let urlString = appDelegate.baseURLSecureString + "authentication/session/new" + appDelegate.escapedParameters(methodParameters)
+        let url = NSURL(string: urlString)
+        
         /* 3. Configure the request */
+        let request = NSMutableURLRequest(URL: url!)
+        request.addValue("aplication/json", forHTTPHeaderField: "Accept")
         /* 4. Make the request */
-        /* 5. Parse the data */
-        /* 6. Use the data! */
+        let task = session.dataTaskWithRequest(request){(data, response, downloadError) in
+            /* 5. Parse the data */
+            if let error = downloadError {
+                print(error.code)
+            } else {
+                if let parsedData = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! NSDictionary {
+                    /* 6. Use the data! */
+                    print("getSessionID parsed data \(parsedData)")
+                    if((parsedData["success"] as! Int) == 1){
+                        self.appDelegate.sessionID = parsedData["session_id"] as? String
+                        self.getUserID(self.appDelegate.sessionID!)
+                    }
+                }
+            }
+            
+        }
         /* 7. Start the request */
+        task.resume()
     }
     
     func getUserID(session_id : String) {
         
         /* TASK: Get the user's ID, then store it (appDelegate.userID) for future use and go to next view! */
         /* 1. Set the parameters */
+        let methodParameters = [
+            "api_key": appDelegate.apiKey as AnyObject,
+            "session_id": appDelegate.sessionID as! AnyObject
+        ]
+        
         /* 2. Build the URL */
+        
+        let urlString = appDelegate.baseURLSecureString + "account" + appDelegate.escapedParameters(methodParameters)
+        let url = NSURL(string: urlString)
         /* 3. Configure the request */
+        let request = NSMutableURLRequest(URL: url!)
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
         /* 4. Make the request */
-        /* 5. Parse the data */
-        /* 6. Use the data! */
+        let task = session.dataTaskWithRequest(request){(data, respons, downloadError) in
+            /* 5. Parse the data */
+            if let error = downloadError {
+                print(error.code)
+            } else {
+                /* 5. Parse the data */
+                if let parsedData = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! NSDictionary {
+                    /* 6. Use the data! */
+                    print("getUserID parsed data \(parsedData)")
+                    if let id = (parsedData["id"] as? Int){
+                        self.appDelegate.userID = id
+                        print("User id is \(id)")
+                        self.completeLogin()
+                    } else {
+                        print("Coun't get user id")
+                    }
+                }
+            }
+        }
         /* 7. Start the request */
+        task.resume()
     }
 }
 
