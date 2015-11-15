@@ -254,7 +254,7 @@ class LoginViewController: UIViewController {
         let request = NSMutableURLRequest(URL: url!)
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         /* 4. Make the request */
-        let task = session.dataTaskWithRequest(request){(data, respons, downloadError) in
+        let task = session.dataTaskWithRequest(request){ (data, response, downloadError) in
             /* 5. Parse the data */
             if let error = downloadError {
                 print(error.code)

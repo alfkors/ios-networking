@@ -43,13 +43,37 @@ class MovieDetailViewController: UIViewController {
         
         /* TASK A: Get favorite movies, then update the favorite buttons */
         /* 1A. Set the parameters */
+        let methodParameters = [
+            "api_key": appDelegate.apiKey as AnyObject,
+            "session_id": appDelegate.sessionID as! AnyObject
+        ]
         /* 2A. Build the URL */
+        let urlString = appDelegate.baseURLSecureString + "account/\(appDelegate.userID)/favorite/movies" + appDelegate.escapedParameters(methodParameters)
+        print("Get favorite movies urlString \(urlString)")
+        let url = NSURL(string: urlString)!
         /* 3A. Configure the request */
+        let request = NSURLRequest(URL: url)
         /* 4A. Make the request */
-        /* 5A. Parse the data */
-        /* 6A. Use the data! */
-        /* 7A. Start the request */
+        let task = session.dataTaskWithRequest(request) { (data, response, downloadError) in
+            /* 5A. Parse the data */
+            if let parsedData = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! NSDictionary {
+                /* 6A. Use the data! */
+                let results = parsedData["results"] as! [[String : AnyObject]]
+                let favoriteMovies = Movie.moviesFromResults(results)
+                if (favoriteMovies.contains({$0.title == self.movie?.title})) {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.favoriteButton.hidden = true
+                    }
+                } else {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.unFavoriteButton.hidden = true
+                    }
+                }
+            }
+        }
         
+        /* 7A. Start the request */
+        task.resume()
         /* TASK B: Get the poster image, then populate the image view */
         if let movie = movie, posterPath = movie.posterPath {
             
@@ -113,24 +137,105 @@ class MovieDetailViewController: UIViewController {
     @IBAction func unFavoriteButtonTouchUpInside(sender: AnyObject) {
         
         /* TASK: Remove movie as favorite, then update favorite buttons */
-        /* 1. Set the parameters */
+        
+        let postBody = [
+            "media_type": "movie",
+            "media_id": movie!.id,
+            "favorite": false
+        ]
+        let jsonPostData = try? NSJSONSerialization.dataWithJSONObject(postBody, options: NSJSONWritingOptions(rawValue: 0))
+        let jsonPostText = NSString(data: jsonPostData!, encoding: NSASCIIStringEncoding)
+        print("unFavorite post json text: \(jsonPostText!)")
+        /* 1A. Set the parameters */
+        let methodParameters = [
+            "api_key": appDelegate.apiKey as AnyObject,
+            "session_id": appDelegate.sessionID as! AnyObject
+        ]
+        /* 2A. Build the URL */
+        let urlString = appDelegate.baseURLSecureString + "account/\(appDelegate.userID)/favorite" + appDelegate.escapedParameters(methodParameters)
+        print("favorite another movie urlString \(urlString)")
+        let url = NSURL(string: urlString)!
+        /* 3A. Configure the request */
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.addValue("applicaiton/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        request.HTTPBody = jsonPostData
+    
         /* 2. Build the URL */
         /* 3. Configure the request */
         /* 4. Make the request */
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            if let response = response, data = data {
+                print("unFavorite response: \(response)")
+                print(String(data: data, encoding: NSUTF8StringEncoding))
+                let parsedData = try? NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as! NSDictionary
+                if(parsedData!["status_code"] as! Int == 13) {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.favoriteButton.hidden = false
+                        self.unFavoriteButton.hidden = true
+                    }
+                }
+            } else {
+                print(error)
+            }
+        }
         /* 5. Parse the data */
         /* 6. Use the data! */
         /* 7. Start the request */
+        task.resume()
     }
     
     @IBAction func favoriteButtonTouchUpInside(sender: AnyObject) {
         
-        /* TASK: Add movie as favorite, then update favorite buttons */
-        /* 1. Set the parameters */
+        /* TASK: Remove movie as favorite, then update favorite buttons */
+        
+        let postBody = [
+            "media_type": "movie",
+            "media_id": movie!.id,
+            "favorite": true
+        ]
+        let jsonPostData = try? NSJSONSerialization.dataWithJSONObject(postBody, options: NSJSONWritingOptions(rawValue: 0))
+        let jsonPostText = NSString(data: jsonPostData!, encoding: NSASCIIStringEncoding)
+        print("Favorite post json text: \(jsonPostText!)")
+        /* 1A. Set the parameters */
+        let methodParameters = [
+            "api_key": appDelegate.apiKey as AnyObject,
+            "session_id": appDelegate.sessionID as! AnyObject
+        ]
+        /* 2A. Build the URL */
+        let urlString = appDelegate.baseURLSecureString + "account/\(appDelegate.userID)/favorite" + appDelegate.escapedParameters(methodParameters)
+        print("favorite another movie urlString \(urlString)")
+        let url = NSURL(string: urlString)!
+        /* 3A. Configure the request */
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.addValue("applicaiton/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        request.HTTPBody = jsonPostData
+        
         /* 2. Build the URL */
         /* 3. Configure the request */
         /* 4. Make the request */
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            if let response = response, data = data {
+                print("unFavorite response: \(response)")
+                print(String(data: data, encoding: NSUTF8StringEncoding))
+                let parsedData = try? NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as! NSDictionary
+                if(parsedData!["status_code"] as! Int == 1 || parsedData!["status_code"] as! Int == 12) {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.favoriteButton.hidden = true
+                        self.unFavoriteButton.hidden = false
+                    }
+                }
+            } else {
+                print(error)
+            }
+        }
         /* 5. Parse the data */
         /* 6. Use the data! */
         /* 7. Start the request */
+        task.resume()
+
     }
 }
