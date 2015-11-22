@@ -50,5 +50,8 @@ class TMDBAuthViewController: UIViewController {
 // MARK: - TMDBAuthViewController: UIWebViewDelegate
 
 extension TMDBAuthViewController: UIWebViewDelegate {
+    func webViewDidFinishLoad(_webView: UIWebView){
+        
+    }
     
 }
