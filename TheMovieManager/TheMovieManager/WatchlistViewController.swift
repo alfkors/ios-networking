@@ -15,14 +15,14 @@ class WatchlistViewController: UIViewController {
     // MARK: Properties
     
     var movies: [TMDBMovie] = [TMDBMovie]()
-
+    
     @IBOutlet weak var moviesTableView: UITableView!
-
+    
     // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         /* Create and set the logout button */
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Reply, target: self, action: "logoutButtonTouchUp")
     }
@@ -30,7 +30,16 @@ class WatchlistViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        // TODO: Get a user's watchlist, then update the table
+        TMDBClient.sharedInstance().getWatchlistMovies { movies, error in
+            if let movies = movies {
+                self.movies = movies
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.moviesTableView.reloadData()
+                }
+            } else {
+                print(error)
+            }
+        }
     }
     
     // MARK: Logout
@@ -56,15 +65,25 @@ extension WatchlistViewController: UITableViewDelegate, UITableViewDataSource {
         cell.imageView!.image = UIImage(named: "Film")
         cell.imageView!.contentMode = UIViewContentMode.ScaleAspectFit
         
-        // TODO: Get the poster image, then populate the cell's image view
+        if let posterPath = movie.posterPath {
+            TMDBClient.sharedInstance().taskForGETImage(TMDBClient.PosterSizes.RowPoster, filePath: posterPath, completionHandler: { (imageData, error) in
+                if let image = UIImage(data: imageData!) {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        cell.imageView!.image = image
+                    }
+                } else {
+                    print(error)
+                }
+            })
+        }
         
-        return cell        
+        return cell
     }
-
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
-
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         /* Push the movie detail view */
@@ -72,7 +91,7 @@ extension WatchlistViewController: UITableViewDelegate, UITableViewDataSource {
         controller.movie = movies[indexPath.row]
         self.navigationController!.pushViewController(controller, animated: true)
     }
-
+    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 100
     }

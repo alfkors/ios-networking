@@ -44,7 +44,7 @@ extension TMDBClient {
         static let Config = "configuration"
         
     }
-
+    
     // MARK: URL Keys
     struct URLKeys {
         
@@ -71,10 +71,10 @@ extension TMDBClient {
         static let Watchlist = "watchlist"
         
     }
-
+    
     // MARK: JSON Response Keys
     struct JSONResponseKeys {
-      
+        
         // MARK: General
         static let StatusMessage = "status_message"
         static let StatusCode = "status_code"
@@ -95,11 +95,19 @@ extension TMDBClient {
         
         // MARK: Movies
         static let MovieID = "id"
-        static let MovieTitle = "title"        
+        static let MovieTitle = "title"
         static let MoviePosterPath = "poster_path"
         static let MovieReleaseDate = "release_date"
         static let MovieReleaseYear = "release_year"
         static let MovieResults = "results"
+        
+    }
+    
+    // MARK: Poster Sizes
+    struct PosterSizes {
+        
+        static let RowPoster = TMDBClient.sharedInstance().config.posterSizes[2]
+        static let DetailPoster = TMDBClient.sharedInstance().config.posterSizes[4]
         
     }
 }

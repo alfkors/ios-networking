@@ -40,6 +40,18 @@ class TMDBAuthViewController: UIViewController {
         }
     }
     
+    func webViewDidFinishLoad(webView: UIWebView) {
+        
+        let allowed = webView.request?.URL?.pathComponents?.contains("allow")
+        if (allowed!) {
+            self.dismissViewControllerAnimated(true, completion: {() -> Void in
+                self.completionHandler!(success: true, errorString: nil)
+            })
+            print("webView did finish loading. URL: \(webView.request?.URL.debugDescription)")
+        }
+    }
+
+    
     // MARK: Cancel Auth Flow
     
     func cancelAuth() {
@@ -50,8 +62,4 @@ class TMDBAuthViewController: UIViewController {
 // MARK: - TMDBAuthViewController: UIWebViewDelegate
 
 extension TMDBAuthViewController: UIWebViewDelegate {
-    func webViewDidFinishLoad(_webView: UIWebView){
-        
-    }
-    
 }
