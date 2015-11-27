@@ -14,7 +14,7 @@ extension TMDBClient {
     struct Constants {
         
         // MARK: API Key
-        static let ApiKey : String = "ENTER_YOUR_API_KEY_HERE"
+        static let ApiKey : String = "0a16654ee4dec81dc637df0d66a43007"
         
         // MARK: URLs
         static let BaseURL : String = "http://api.themoviedb.org/3/"

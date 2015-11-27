@@ -30,7 +30,16 @@ class FavoritesViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        // TODO: Get a user's favorite movies, then update the table */
+        TMDBClient.sharedInstance().getFavoriteMovies(){ movies, error in
+            if let movies = movies {
+                self.movies = movies
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.moviesTableView.reloadData()
+                }
+            } else {
+                print(error)
+            }
+        }
     }
     
     // MARK: Logout

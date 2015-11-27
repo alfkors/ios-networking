@@ -47,7 +47,6 @@ class TMDBAuthViewController: UIViewController {
             self.dismissViewControllerAnimated(true, completion: {() -> Void in
                 self.completionHandler!(success: true, errorString: nil)
             })
-            print("webView did finish loading. URL: \(webView.request?.URL.debugDescription)")
         }
     }
 
