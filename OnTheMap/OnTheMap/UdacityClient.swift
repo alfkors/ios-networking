@@ -15,6 +15,7 @@ class UdacityClient : NSObject {
     // MARK: Properties
     
     let baseURL = "https://www.udacity.com/api/"
+    var student: UdacityStudent?
     
     /* Shared session */
     var session: NSURLSession

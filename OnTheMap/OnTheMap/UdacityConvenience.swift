@@ -26,7 +26,18 @@ extension UdacityClient {
             if (result != nil) {
                 print("Created udacity session: result is \(result)")
                 if let accountDictionary = result[UdacityClient.JSONResponseKeys.Account] as AnyObject? {
-                    self.userKey = accountDictionary["key"] as? String
+                    if let userKey = accountDictionary["key"] as? String {
+                        self.userKey = userKey
+                        self.getUdacityStudent(userKey) { (result, error) in
+                            if let udacityStudentData = result["user"] as AnyObject? {
+                                let studentDictionary = [
+                                    "last_name": udacityStudentData["last_name"] as! String,
+                                    "first_name": udacityStudentData["first_name"] as! String
+                                ]
+                                self.student = UdacityStudent(dictionary: studentDictionary)
+                            }
+                        }
+                    }
                 }
                 if let sessionDictionary = result[UdacityClient.JSONResponseKeys.Session] as AnyObject? {
                     self.sessionID = sessionDictionary["id"] as? String

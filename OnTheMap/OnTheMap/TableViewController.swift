@@ -15,7 +15,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK: Properties
     var studentLocations: [StudentLocation] = [StudentLocation]()
     
-    @IBOutlet weak var locationsTableView: UITableView!
+    @IBOutlet weak var studentLocationsTableView: UITableView!
     
     // MARK: Life Cycle
     
@@ -23,7 +23,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLoad()
         
         /* Create and set the logout button */
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Reply, target: self, action: "logoutButtonTouchUp")
+        self.parentViewController!.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Reply, target: self, action: "logoutButtonTouchUp")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -35,7 +35,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
                 self.studentLocations = studentLocations
                 print("In MapViewController's viewWillAppear: There are \(studentLocations.count) student locations")
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.locationsTableView.reloadData()
+                    self.studentLocationsTableView.reloadData()
                 }
             } else {
                 print(error)
@@ -48,7 +48,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         /* Get cell type */
-        let cellReuseIdentifier = "LocationTableViewCell"
+        let cellReuseIdentifier = "StudentLocationTableViewCell"
         let location = studentLocations[indexPath.row]
         print("In TableViewController: row is \(indexPath.row)")
         print("In TableViewController: location is \(location)")

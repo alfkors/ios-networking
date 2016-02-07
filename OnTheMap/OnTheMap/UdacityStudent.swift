@@ -16,21 +16,17 @@ struct UdacityStudent {
     
     var firstName = ""
     var lastName = ""
-    var nickname = ""
+    /*var nickname = ""
     var location: AnyObject
     var website = ""
-    var linkedin = ""
+    var linkedin = ""*/
     
     // MARK: Initializers
     
     /* Construct a UdacityStudent from a dictionary */
-    init(dictionary: [String : AnyObject]) {
+    init(dictionary: [String:AnyObject]) {
         
         firstName = dictionary[UdacityClient.JSONResponseKeys.FirstName] as! String
         lastName = dictionary[UdacityClient.JSONResponseKeys.LastName] as! String
-        nickname = dictionary[UdacityClient.JSONResponseKeys.NickName] as! String
-        location = dictionary[UdacityClient.JSONResponseKeys.Location]! as AnyObject
-        website = dictionary[UdacityClient.JSONResponseKeys.WebSite] as! String
-        linkedin = dictionary[UdacityClient.JSONResponseKeys.LinkedIn] as! String
     }
 }
