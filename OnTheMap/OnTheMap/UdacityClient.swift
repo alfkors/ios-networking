@@ -22,7 +22,6 @@ class UdacityClient : NSObject {
     
     /* Authentication state */
     var sessionID : String? = nil
-    var userKey : String? = nil
     
     // MARK: Initializers
     

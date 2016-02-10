@@ -136,6 +136,7 @@
                         <viewControllerLayoutGuide type="bottom" id="lVB-Hj-x0Q"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dAg-x9-C7r">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="k9x-PU-Yst">
@@ -317,7 +318,6 @@
         <!--Submit Student Location-->
         <scene sceneID="EIX-cb-AhZ">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2Sj-Qh-oAc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="vAr-85-UhX" userLabel="Submit Student Location" customClass="SubmitStudentLocationViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TU4-d2-ITu"/>
@@ -387,6 +387,7 @@
                         <outlet property="studentLinkTextField" destination="VdO-Up-Yt8" id="h3i-cf-tGl"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Sj-Qh-oAc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3412.5" y="-792"/>
         </scene>

@@ -24,6 +24,7 @@ import MapKit
 class SubmitStudentLocationViewController: UIViewController, MKMapViewDelegate {
     
     var studentLocationCoordinate: CLLocationCoordinate2D!
+    var mapString: String!
     var studentLocation: StudentLocation!
     
     @IBOutlet weak var mapView: MKMapView!
@@ -37,39 +38,15 @@ class SubmitStudentLocationViewController: UIViewController, MKMapViewDelegate {
         3. Create a new Student Location Object
         4. Post the new Student Location Object to Parse
         */
-        
-        let newStudentDictionary = [
-            "createdAt" : "2016-02-3T22:27:14.456Z",
-            "firstName" : "Jessica",
-            "lastName" : "Uelmen",
-            "latitude" : 28.1461248,
-            "longitude" : -82.75676799999999,
-            "mapString" : "Tarpon Springs, FL",
-            "mediaURL" : "www.linkedin.com/in/jessicauelmen/en",
-            "objectId" : "kj18GEaWD8",
-            "uniqueKey" : 872458750,
-            "updatedAt" : "2015-03-09T22:07:09.593Z"
-        ]
-        
+        UdacityClient.sharedInstance().student?.mediaURL = self.studentLinkTextField.text
+        let newStudentLocationDictionary = UdacityClient.sharedInstance().student?.toDictionary()
+        ParseClient.sharedInstance().postNewStudentLocation(newStudentLocationDictionary!) { (success, errorString) in
+            if success {
+                self.completeSubmit()
+            } else {
+                print("Parse client received \(errorString) error while posting new student location")
+            }
 
-        var annotations = [MKPointAnnotation]()
-        let firstName = (UdacityClient.sharedInstance().student?.firstName)! as String
-        let lastName = (UdacityClient.sharedInstance().student?.lastName)! as String
-        let mediaURL = studentLinkTextField.text
-        
-        print("In getStudentLocation completion handler: \(firstName) \(lastName)")
-        
-        // Here we create the annotation and set its coordiate, title, and subtitle properties
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = studentLocationCoordinate
-        annotation.title = "\(firstName) \(lastName)"
-        annotation.subtitle = mediaURL
-        
-        // Finally we place the annotation in an array of annotations.
-        annotations.append(annotation)
-        // When the array is complete, we add the annotations to the map.
-        dispatch_async(dispatch_get_main_queue()) {
-            self.mapView.addAnnotations(annotations)
         }
     }
     
@@ -78,24 +55,18 @@ class SubmitStudentLocationViewController: UIViewController, MKMapViewDelegate {
         
         /* Create and set the logout button */
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Reply, target: self, action: "logoutButtonTouchUp")
-    }
+        }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-    }
-    
-    func geoCodeStudentLocation(studentLocation: String, completionHandler: (coordinate: CLLocationCoordinate2D?, errorString: String?) -> Void) {
-        let geoCoder = CLGeocoder()
-        geoCoder.geocodeAddressString(studentLocation) { (placemark, error) in
-            print("GeoCoding \(studentLocation)")
-            if let placemark = placemark {
-                print("geoCoder has placemark")
-                completionHandler(coordinate: placemark[0].location?.coordinate, errorString: nil)
-            } else {
-                print("geoCoder error: \(error)")
-                completionHandler(coordinate: nil, errorString: "Error geoCoding student location")
-            }
-        }
+        /* Place the location pin on the map */
+        var annotations = [MKPointAnnotation]()
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = studentLocationCoordinate
+        // Finally we place the annotation in an array of annotations.
+        annotations.append(annotation)
+        // When the array is complete, we add the annotations to the map.
+        self.mapView.addAnnotations(annotations)
     }
     
     // MARK: - MKMapViewDelegate
@@ -132,6 +103,13 @@ class SubmitStudentLocationViewController: UIViewController, MKMapViewDelegate {
                 app.openURL(NSURL(string: toOpen)!)
             }
         }
+    }
+    
+    func completeSubmit() {
+        dispatch_async(dispatch_get_main_queue(), {
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("ManagerNavigationController") as! UINavigationController
+            self.presentViewController(controller, animated: true, completion: nil)
+        })
     }
     
     // MARK: Logout

@@ -24,10 +24,12 @@ import MapKit
 class NewStudentLocationViewController: UIViewController, MKMapViewDelegate {
     
     var studentLocationCoordinate: CLLocationCoordinate2D!
+    var mapString: String!
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let controller = segue.destinationViewController as! SubmitStudentLocationViewController
         controller.studentLocationCoordinate = self.studentLocationCoordinate
+        controller.mapString = self.mapString
     }
     
     @IBOutlet weak var studentLocationTextField: UITextField!
@@ -36,10 +38,13 @@ class NewStudentLocationViewController: UIViewController, MKMapViewDelegate {
             1. GeoCode location text string
             2. Pass the annotations array to the submit view via segue
         */
-        
-        if studentLocationTextField.text != "" {
-            geoCodeStudentLocation(studentLocationTextField.text!) { (coordinate, error) in
+        mapString = studentLocationTextField.text
+        if mapString != "" {
+            geoCodeStudentLocation(mapString!) { (coordinate, error) in
                 if let studentLocationCoordinate = coordinate {
+                    UdacityClient.sharedInstance().student?.lattitude = studentLocationCoordinate.latitude
+                    UdacityClient.sharedInstance().student?.longitude = studentLocationCoordinate.longitude
+                    UdacityClient.sharedInstance().student?.mapString = self.mapString
                     self.studentLocationCoordinate = studentLocationCoordinate
                     self.performSegueWithIdentifier("submitStudentLocation", sender: self)
                 } else {

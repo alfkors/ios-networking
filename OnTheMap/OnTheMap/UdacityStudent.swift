@@ -14,12 +14,13 @@ struct UdacityStudent {
     
     // MARK: Properties
     
-    var firstName = ""
-    var lastName = ""
-    /*var nickname = ""
-    var location: AnyObject
-    var website = ""
-    var linkedin = ""*/
+    var firstName:String!
+    var lastName:String!
+    var lattitude:Double?
+    var longitude:Double?
+    var mediaURL:String?
+    var userKey:String!
+    var mapString:String?
     
     // MARK: Initializers
     
@@ -28,5 +29,24 @@ struct UdacityStudent {
         
         firstName = dictionary[UdacityClient.JSONResponseKeys.FirstName] as! String
         lastName = dictionary[UdacityClient.JSONResponseKeys.LastName] as! String
+        lattitude = dictionary["lattitude"] as? Double
+        longitude = dictionary["longitude"] as? Double
+        mediaURL = dictionary["mediaURL"] as? String
+        mapString = dictionary["mapString"] as? String
+        userKey = dictionary["userKey"] as! String
+    }
+    
+    func toDictionary() -> [String:AnyObject] {
+        
+        let udacityStudentDictionary : [String:AnyObject] = [
+            "firstName" : self.firstName,
+            "lastName" : self.lastName,
+            "latitude" : self.lattitude!,
+            "longitude" : self.longitude!,
+            "mapString" : self.mapString!,
+            "mediaURL" : self.mediaURL!,
+            "uniqueKey" : self.userKey
+            ]
+        return udacityStudentDictionary
     }
 }

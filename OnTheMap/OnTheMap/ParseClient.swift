@@ -38,8 +38,7 @@ class ParseClient : NSObject {
         let method: String = "StudentLocation"
         let parameters = [
             "limit": 100,
-            "skip": 400,
-            "order": "-updatedAt"
+            "order": "-createdAt"
         ]
         
         /* 2. Make the request */
@@ -60,6 +59,76 @@ class ParseClient : NSObject {
                 completionHandler(result: studentLocations, error: nil)
             }
         }
+    }
+    
+    func postNewStudentLocation(newStudentLocationDictionary: [String:AnyObject], completionHandler: (success: Bool, errorString: String?) -> Void) {
+        self.taskForPOSTMethod("StudentLocation", jsonBody: newStudentLocationDictionary) { (result, errorString) in
+            if (result != nil) {
+                print("Submitted new student location to Parse: result is \(result)")
+
+                if let creationDate = result["createdAt"] as? String {
+                    print("New StudentLocation parse object was created at \(creationDate)")
+                }
+                completionHandler(success: true, errorString: nil)
+            } else {
+                completionHandler(success: false, errorString: "Failed to create Udacity Session.")
+            }
+            
+        }
+    }
+    
+    func taskForPOSTMethod(method: String, jsonBody: [String:AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        
+        let baseURL = "https://api.parse.com/1/classes/"
+        
+        /* 2/3. Build the URL and configure the request */
+        let urlString = baseURL + method
+        let url = NSURL(string: urlString)!
+        let request = NSMutableURLRequest(URL: url)
+        request.addValue(parseAppId, forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue(parseApiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.HTTPMethod = "POST"
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        do {
+            request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(jsonBody, options: .PrettyPrinted)
+        }
+        
+        /* 4. Make the request */
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            
+            /* GUARD: Was there an error? */
+            guard (error == nil) else {
+                print("There was an error with your request: \(error)")
+                return
+            }
+            
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                if let response = response as? NSHTTPURLResponse {
+                    print("Your request returned an invalid response! Status code: \(response.statusCode)!")
+                } else if let response = response {
+                    print("Your request returned an invalid response! Response: \(response)!")
+                } else {
+                    print("Your request returned an invalid response!")
+                }
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                print("No data was returned by the request!")
+                return
+            }
+            
+            /* 5/6. Parse the data and use the data (happens in completion handler) */
+            self.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+        }
+        
+        /* 7. Start the request */
+        task.resume()
+        
+        return task
     }
 
     
