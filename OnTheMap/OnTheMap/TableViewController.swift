@@ -49,13 +49,15 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         /* Get cell type */
         let cellReuseIdentifier = "StudentLocationTableViewCell"
-        let location = studentLocations[indexPath.row]
+        let studentLocation = studentLocations[indexPath.row]
         print("In TableViewController: row is \(indexPath.row)")
-        print("In TableViewController: location is \(location)")
+        print("In TableViewController: location is \(studentLocation)")
         let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as UITableViewCell!
         
         /* Set cell defaults */
-        cell.textLabel!.text = location.firstName
+        cell.textLabel!.text = "\(studentLocation.firstName) \(studentLocation.lastName)"
+        cell.imageView!.image = UIImage(named: "Pin")
+        cell.imageView!.contentMode = UIViewContentMode.ScaleAspectFit
         return cell
     }
     
@@ -65,7 +67,12 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // TODO
+        let app = UIApplication.sharedApplication()
+        let studentLocation = studentLocations[indexPath.row]
+        if let toOpen = studentLocation.mediaURL {
+            app.openURL(NSURL(string: toOpen)!)
+        }
+
     }
     
     // MARK: Logout

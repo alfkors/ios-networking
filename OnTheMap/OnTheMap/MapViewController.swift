@@ -118,6 +118,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // MARK: Logout
     
     func logoutButtonTouchUp() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        let sessionID = UdacityClient.sharedInstance().sessionID!
+        UdacityClient.sharedInstance().deleteSession(sessionID){ (success, errorString) in
+            if success {
+                print("Logged out")
+                dispatch_async(dispatch_get_main_queue(), {
+                    let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LoginViewController") as! UIViewController
+                    self.presentViewController(controller, animated: true, completion: nil)
+                })
+            } else {
+                print("Error logging out")
+            }
+        }
     }
 }

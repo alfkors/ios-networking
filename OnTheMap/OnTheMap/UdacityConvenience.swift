@@ -50,11 +50,15 @@ extension UdacityClient {
     }
 
     
-    func deleteSession(session: String, completionHandler: (result: Int?, error: NSError?) -> Void) {
-        
-        /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
-        /* 2. Make the request */
-        /* 3. Send the desired value(s) to completion handler */
+    func deleteSession(session: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
+        let method = "session"
+        self.taskForDELETEMethod(method) { (result, errorString) in
+            if result != nil {
+                completionHandler(success: true, errorString: nil)
+            } else {
+                completionHandler(success: false, errorString: "Failed to delete Udacity Session")
+            }
+        }
         print("implement me: UdacityClient deleteSession")
     }
 }
