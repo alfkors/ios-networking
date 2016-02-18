@@ -40,10 +40,8 @@ class LoginViewController: UIViewController {
     
     @IBAction func login(sender: AnyObject) {
         
-        if usernameTextField.text!.isEmpty {
-            debugTextLabel.text = "Username Empty."
-        } else if passwordTextField.text!.isEmpty {
-            debugTextLabel.text = "Password Empty."
+        if usernameTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
+            displayError("Username or Password is Empty")
         } else {
             print("Username is: \(usernameTextField.text), password is: \(passwordTextField.text)")
             UdacityClient.sharedInstance().createUdacitySession(usernameTextField.text!, password: passwordTextField.text!) { (success, errorString) in
@@ -70,9 +68,16 @@ class LoginViewController: UIViewController {
     
     func displayError(errorString: String?) {
         dispatch_async(dispatch_get_main_queue(), {
-            if let errorString = errorString {
-                self.debugTextLabel.text = errorString
+            let alertController = UIAlertController()
+            let dismissAction = UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default) { action in
+                self.dismissViewControllerAnimated(true, completion: nil)
             }
+            alertController.addAction(dismissAction)
+            alertController.title = "Error"
+            if let errorString = errorString {
+                alertController.message = errorString
+            }
+            self.presentViewController(alertController, animated: true, completion: nil)
         })
     }
 }

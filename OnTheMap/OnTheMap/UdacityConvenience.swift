@@ -22,7 +22,7 @@ extension UdacityClient {
                 "password": password
             ]
         ]
-        self.taskForPOSTMethod("session", jsonBody: jsonBody) { (result, errorString) in
+        self.taskForPOSTMethod("session", jsonBody: jsonBody) { (result, error) in
             if (result != nil) {
                 print("Created udacity session: result is \(result)")
                 if let accountDictionary = result[UdacityClient.JSONResponseKeys.Account] as AnyObject? {
