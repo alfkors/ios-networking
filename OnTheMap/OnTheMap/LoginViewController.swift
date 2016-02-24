@@ -18,6 +18,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var debugTextLabel: UILabel!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var activitySpinner: UIActivityIndicatorView!
     
     var session: NSURLSession!
     var student: UdacityStudent!
@@ -44,7 +45,13 @@ class LoginViewController: UIViewController {
             displayError("Username or Password is Empty")
         } else {
             print("Username is: \(usernameTextField.text), password is: \(passwordTextField.text)")
+            
+            activitySpinner.startAnimating()
+            
             UdacityClient.sharedInstance().createUdacitySession(usernameTextField.text!, password: passwordTextField.text!) { (success, errorString) in
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.activitySpinner.stopAnimating()
+                })
                 if success {
                     self.completeLogin()
                 } else {

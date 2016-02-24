@@ -24,7 +24,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="On The Map" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dnn-cZ-mZW">
                                         <rect key="frame" x="0.0" y="0.0" width="94" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.31740837696335078" green="0.31740837696335078" blue="0.31740837696335078" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Email" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Y4e-Pp-41a">
@@ -39,7 +39,9 @@
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Etx-JM-7DJ">
                                         <rect key="frame" x="234" y="0.0" width="38" height="30"/>
-                                        <state key="normal" title="Login"/>
+                                        <state key="normal" title="Login">
+                                            <color key="titleColor" red="0.31740837696335078" green="0.31740837696335078" blue="0.31740837696335078" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="login:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gDe-XK-8Ft"/>
                                         </connections>
@@ -53,29 +55,48 @@
                                 </subviews>
                                 <variation key="widthClass=compact" axis="vertical"/>
                             </stackView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0YK-7x-9Pm">
+                                <rect key="frame" x="-10" y="-10" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.89019607840000003" green="0.45098039220000002" blue="0.12549019610000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="r9F-qc-NWx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Bfq-3r-sja"/>
+                            <constraint firstItem="0YK-7x-9Pm" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="331" id="RGu-fP-gPH"/>
                             <constraint firstAttribute="trailingMargin" secondItem="r9F-qc-NWx" secondAttribute="trailing" id="S1G-DY-HfX"/>
                             <constraint firstItem="r9F-qc-NWx" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="141" id="Ttb-Qu-2GT"/>
+                            <constraint firstItem="0YK-7x-9Pm" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="170" id="cEu-Mw-Y1c"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0YK-7x-9Pm" secondAttribute="trailing" constant="170" id="ksv-AC-Ylp"/>
                         </constraints>
                         <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="0YK-7x-9Pm"/>
+                            </mask>
                             <mask key="constraints">
                                 <exclude reference="Bfq-3r-sja"/>
                                 <exclude reference="S1G-DY-HfX"/>
                                 <exclude reference="Ttb-Qu-2GT"/>
+                                <exclude reference="RGu-fP-gPH"/>
+                                <exclude reference="cEu-Mw-Y1c"/>
+                                <exclude reference="ksv-AC-Ylp"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="0YK-7x-9Pm"/>
+                            </mask>
                             <mask key="constraints">
                                 <include reference="Bfq-3r-sja"/>
                                 <include reference="S1G-DY-HfX"/>
                                 <include reference="Ttb-Qu-2GT"/>
+                                <include reference="RGu-fP-gPH"/>
+                                <include reference="cEu-Mw-Y1c"/>
+                                <include reference="ksv-AC-Ylp"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="activitySpinner" destination="0YK-7x-9Pm" id="efg-WY-cfS"/>
                         <outlet property="debugTextLabel" destination="e8t-Cf-pJa" id="xaa-4a-gNN"/>
                         <outlet property="headerTextLabel" destination="dnn-cZ-mZW" id="eox-bq-rVU"/>
                         <outlet property="passwordTextField" destination="LBQ-i2-vCb" id="2eu-HO-Kd4"/>

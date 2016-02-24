@@ -15,6 +15,7 @@ class ParseClient : NSObject {
     // MARK: Properties
     
     let baseURL = "https://www.udacity.com/api/"
+    var studentLocations: [StudentLocation] = [StudentLocation]()
     
     /* Shared session */
     var session: NSURLSession
