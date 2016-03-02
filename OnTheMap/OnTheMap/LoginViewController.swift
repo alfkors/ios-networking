@@ -48,14 +48,15 @@ class LoginViewController: UIViewController {
             
             activitySpinner.startAnimating()
             
-            UdacityClient.sharedInstance().createUdacitySession(usernameTextField.text!, password: passwordTextField.text!) { (success, errorString) in
+            UdacityClient.sharedInstance().createUdacitySession(usernameTextField.text!, password: passwordTextField.text!) { (success, error) in
                 dispatch_async(dispatch_get_main_queue(), {
                     self.activitySpinner.stopAnimating()
                 })
                 if success {
                     self.completeLogin()
                 } else {
-                    self.displayError(errorString)
+                    print("In LoginViewController \(error)")
+                    self.displayError(error)
                 }
             }
         }

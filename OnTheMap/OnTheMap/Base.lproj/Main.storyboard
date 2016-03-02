@@ -427,6 +427,38 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="f5b-VT-LV4" userLabel="Student Location Table View">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="Qf3-th-F8M">
+                                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="JP1-oF-rcZ">
+                                            <rect key="frame" x="-10" y="-10" width="20" height="20"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="JP1-oF-rcZ" firstAttribute="centerY" secondItem="Qf3-th-F8M" secondAttribute="centerY" id="5pG-yl-lYe"/>
+                                        <constraint firstItem="JP1-oF-rcZ" firstAttribute="centerX" secondItem="Qf3-th-F8M" secondAttribute="centerX" id="KjO-Ig-QLd"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="subviews">
+                                            <exclude reference="JP1-oF-rcZ"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <exclude reference="5pG-yl-lYe"/>
+                                            <exclude reference="KjO-Ig-QLd"/>
+                                        </mask>
+                                    </variation>
+                                    <variation key="widthClass=compact">
+                                        <mask key="subviews">
+                                            <include reference="JP1-oF-rcZ"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <include reference="5pG-yl-lYe"/>
+                                            <include reference="KjO-Ig-QLd"/>
+                                        </mask>
+                                    </variation>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="StudentLocationTableViewCell" id="o3d-m8-oVZ">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -459,6 +491,8 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="List" id="7EW-hU-7kN" userLabel="Table"/>
                     <connections>
+                        <outlet property="activitySpinner" destination="JP1-oF-rcZ" id="wm9-tj-1MC"/>
+                        <outlet property="activityView" destination="Qf3-th-F8M" id="x4H-8a-jZm"/>
                         <outlet property="studentLocationsTableView" destination="f5b-VT-LV4" id="3Pv-MZ-6mm"/>
                     </connections>
                 </viewController>
@@ -480,28 +514,55 @@
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Ipr-xz-Kei">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="16" y="108" width="369" height="384"/>
-                                </variation>
                                 <connections>
                                     <outlet property="delegate" destination="OZV-BU-a7E" id="VTd-l9-kg0"/>
                                 </connections>
                             </mapView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="RPk-3u-2aK">
+                                <rect key="frame" x="-10" y="-10" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Ipr-xz-Kei" firstAttribute="leading" secondItem="iAh-HJ-Rbn" secondAttribute="leadingMargin" constant="-4" id="Dfa-xc-21a"/>
+                            <constraint firstItem="Ipr-xz-Kei" firstAttribute="top" secondItem="505-7n-8cg" secondAttribute="bottom" constant="44" id="Iem-kq-Yof"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Ipr-xz-Kei" secondAttribute="trailing" constant="-5" id="eyz-8B-p6C"/>
+                            <constraint firstItem="jlQ-nj-9Q3" firstAttribute="top" secondItem="Ipr-xz-Kei" secondAttribute="bottom" constant="59" id="pxf-On-Q4U"/>
+                            <constraint firstItem="RPk-3u-2aK" firstAttribute="top" secondItem="Ipr-xz-Kei" secondAttribute="bottom" constant="-202" id="qj4-XQ-HCv"/>
+                            <constraint firstItem="RPk-3u-2aK" firstAttribute="centerX" secondItem="Ipr-xz-Kei" secondAttribute="centerX" id="shV-OV-Ggl"/>
+                        </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="Ipr-xz-Kei"/>
+                                <exclude reference="RPk-3u-2aK"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="Dfa-xc-21a"/>
+                                <exclude reference="Iem-kq-Yof"/>
+                                <exclude reference="eyz-8B-p6C"/>
+                                <exclude reference="qj4-XQ-HCv"/>
+                                <exclude reference="shV-OV-Ggl"/>
+                                <exclude reference="pxf-On-Q4U"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
                                 <include reference="Ipr-xz-Kei"/>
+                                <include reference="RPk-3u-2aK"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="Dfa-xc-21a"/>
+                                <include reference="Iem-kq-Yof"/>
+                                <include reference="eyz-8B-p6C"/>
+                                <include reference="qj4-XQ-HCv"/>
+                                <include reference="shV-OV-Ggl"/>
+                                <include reference="pxf-On-Q4U"/>
                             </mask>
                         </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="Map" id="4as-jj-4Lt" userLabel="Map"/>
                     <connections>
+                        <outlet property="activitySpinner" destination="RPk-3u-2aK" id="v3G-pw-kiu"/>
                         <outlet property="mapView" destination="Ipr-xz-Kei" id="sXE-XJ-yka"/>
                     </connections>
                 </viewController>

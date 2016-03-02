@@ -44,11 +44,13 @@ class UdacityClient : NSObject {
         /* 4. Make the request */
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
-            /* GUARD: Was there an error? */
+            /* GUARD: Was there an error?
             guard (error == nil) else {
                 print("There was an error with your request: \(error)")
                 return
-            }
+            }*/
+            
+            if error != nil { completionHandler(result: nil, error: error) }
             
             /* GUARD: Did we get a successful 2XX response? */
             guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
@@ -95,11 +97,13 @@ class UdacityClient : NSObject {
         /* 4. Make the request */
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
-            /* GUARD: Was there an error? */
+            /* GUARD: Was there an error?
             guard (error == nil) else {
                 print("There was an error with your request: \(error)")
                 return
-            }
+            }*/
+            
+            if error != nil { completionHandler(result: nil, error: error) }
             
             print("task for post method response: \(response)")
             /* GUARD: Did we get a successful 2XX response? */

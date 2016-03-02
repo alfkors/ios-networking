@@ -25,6 +25,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var studentLocations: [StudentLocation] = [StudentLocation]()
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var activitySpinner: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +42,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         var annotations = [MKPointAnnotation]()
         
         // Get an array of StudentLocation structs and use it to create and array of point annotations.
+        activitySpinner.startAnimating()
         ParseClient.sharedInstance().getStudentLocations() { studentLocations, error in
+            dispatch_async(dispatch_get_main_queue(), {
+                self.activitySpinner.stopAnimating()
+            })
             if let studentLocations = studentLocations {
                 self.studentLocations = studentLocations
                 print("In MapViewController's viewWillAppear: There are \(studentLocations.count) student locations")

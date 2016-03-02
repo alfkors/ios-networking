@@ -13,7 +13,9 @@ import UIKit
 class TableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: Properties
+    @IBOutlet weak var activitySpinner: UIActivityIndicatorView!
     var studentLocations: [StudentLocation] = [StudentLocation]()
+    @IBOutlet weak var activityView: UIView!
     
     @IBOutlet weak var studentLocationsTableView: UITableView!
     
@@ -29,8 +31,11 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        
+        activitySpinner.startAnimating()
         ParseClient.sharedInstance().getStudentLocations() { studentLocations, error in
+            dispatch_async(dispatch_get_main_queue(), {
+                self.activitySpinner.stopAnimating()
+            })
             if let studentLocations = studentLocations {
                 self.studentLocations = studentLocations
                 print("In MapViewController's viewWillAppear: There are \(studentLocations.count) student locations")

@@ -44,7 +44,7 @@ extension UdacityClient {
                 }
                 completionHandler(success: true, errorString: nil)
             } else {
-                completionHandler(success: false, errorString: "Failed to create Udacity Session.")
+                completionHandler(success: false, errorString: error?.localizedDescription)
             }
         }
     }
